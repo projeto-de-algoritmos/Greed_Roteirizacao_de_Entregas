@@ -63,7 +63,7 @@ def encontrar_notas(troco, notas):
 # Algoritmo do Caminhoneiro
 #   Recebe o endereco da entrega e todos os caminhoes, calcula a menor quantidade de vezes que
 #    cada caminhão precisará abastecer.
-def calcular_rota(enderecos):
+def calcular_abastecimento(distancia):
     # Simulação de distâncias entre os endereços
     # Substitua essa parte com uma biblioteca de mapas
     # distancia_entre_enderecos = {
@@ -109,8 +109,8 @@ def calcular_rota(enderecos):
 #    a distância a ser percorrida, retorna os dados da entrega.
 def main():
     # Dados de exemplo
-    caminhao1 = Caminhao(50)
-    caminhao2 = Caminhao(70)
+    caminhao1 = Caminhao(50, 50)
+    caminhao2 = Caminhao(70, 100)
 
     # Nome do produto, quantidade, valor, prioridade.
     produtos = [
@@ -130,13 +130,14 @@ def main():
 
     # Algoritmo da Moeda
     troco = 100
-    notas = [50, 20, 10, 5, 1]
+    # Assume que o caminhoneiro possui todos os tipos de notas em quantidades suficientes.
+    notas = [200, 100, 50, 20, 10, 5, 2, 1, 0.5, 0.25, 0.1]
     quantidade_notas = encontrar_notas(troco, notas)
     print("Quantidade de notas:", quantidade_notas)
 
     # Algoritmo do Caminhoneiro
-    endereco = 1
-    menor_distancia = calcular_rota(endereco)
+    distancia = 505
+    menor_distancia = calcular_abastecimento(distancia)
     print("Menor distância:", menor_distancia)
 
 if __name__ == '__main__':

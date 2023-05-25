@@ -1,4 +1,4 @@
-# Safe Chess
+# Roteirização de Entregas
 
 **Número da Lista**: 3<br>
 **Conteúdo da Disciplina**: Greed<br>
@@ -33,5 +33,5 @@ ou
 
 E iniciar inserindo os seus valores. 
 
-## Uso 
-S
+## Uso
+O usuário insere a quantidades e dados dos caminhões, produtos, pagamento do cliente e a distância a ser percorrida, e recebe os dados da entrega como a carga dos caminhões, número de abastecimentos, lucro de cada caminhão e notas recebidas como troco.
