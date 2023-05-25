@@ -1,45 +1,37 @@
-**!! Atenção: Renomeie o seu repositório para (Tema)_(NomeDoProjeto). !!** 
+# Safe Chess
 
-Temas:
- - Grafos1
- - Grafos2
- - PD
- - D&C
- - Greed
- - Final 
- 
- **!! *Não coloque os nomes dos alunos no título do repositório*. Exemplo de título correto: Grafos2_Labirinto-do-Minotauro !!**
- 
- (Apague essa seção)
-
-# NomedoProjeto
-
-**Número da Lista**: X<br>
-**Conteúdo da Disciplina**: XXXXXXXXXX<br>
+**Número da Lista**: 3<br>
+**Conteúdo da Disciplina**: Greed<br>
 
 ## Alunos
 |Matrícula | Aluno |
 | -- | -- |
-| xx/xxxxxx  |  xxxx xxxx xxxxx |
-| xx/xxxxxx  |  xxxx xxxx xxxxx |
+| 20/0013181  |  Adne Moretti Moreira |
+| 20/0018205  |  Gabriel Moretti de Souza |
 
-## Sobre 
-Descreva os objetivos do seu projeto e como ele funciona. 
+## Sobre
+O objetivo deste projeto é criar um sistema de roteirização de entregas inteligente e eficiente para uma empresa de logística. O sistema recebe como entrada informações sobre os produtos a serem entregues, suas dimensões, pesos e prioridades, além dos endereços de entrega e as restrições de tempo. Com base nessas informações, o sistema calcula a rota mais eficiente para os caminhões da empresa, levando em consideração as capacidades de carga dos veículos, as distâncias a serem percorridas e os prazos de entrega.
 
 ## Screenshots
 Adicione 3 ou mais screenshots do projeto em funcionamento.
 
+## Vídeo
+
+[]()
+
 ## Instalação 
-**Linguagem**: xxxxxx<br>
-**Framework**: (caso exista)<br>
-Descreva os pré-requisitos para rodar o seu projeto e os comandos necessários.
+**Linguagem**: Python<br>
+**Framework**: --<br>
+
+Para rodar o projeto basta rodar o arquivo python com o comando: 
+
+```python main.py```
+
+ou
+
+```python3 main.py```
+
+E iniciar inserindo os seus valores. 
 
 ## Uso 
-Explique como usar seu projeto caso haja algum passo a passo após o comando de execução.
-
-## Outros 
-Quaisquer outras informações sobre seu projeto podem ser descritas abaixo.
-
-
-
-
+S
