@@ -18,9 +18,9 @@ class Produto:
 #   Aproveitamento: distância máxima percorrida com o caminhão de tanque cheio
 #   Produtos: produtos que estão sendo levados pelo caminhão
 class Caminhao:
-    def __init__(self, capacidade, aproveitamento):
+    def __init__(self, capacidade, autonomia):
         self.capacidade = capacidade
-        self.aproveitamento = aproveitamento
+        self.autonomia = autonomia
         self.produtos = []
 
     def adicionar_produto(self, produto):
@@ -67,20 +67,41 @@ def knapsack(caminhoes, produtos):
             break
 
     return caminhoes, produtos
-
+def binary_search(notas, l, r, x):
+    upper_bound = -1
+    indice = -1
+    while(l<=r): 
+        m = (l+r)//2
+        if notas[m] <= x:
+            upper_bound = notas[m]
+            indice = m
+            l= m + 1
+        else:
+            r = m - 1
+    return upper_bound, indice
+    
 # Algoritmo da Moeda
 #   Recebe o troco que deverá ser entregue ao cliente e quais notas estão disponíveis, irá
 #    calcular a melhor forma de dividir o troco pelas notas, com a menor quantidade de notas.
-def encontrar_notas(troco, notas):
-    notas.sorted(reverse=True)
-    quantidade_notas = [0] * len(notas)
+def coin_changing(troco, notas):
+    notas.sort()
+    select_notas = []
+    while(troco != 0): 
+        nota, k = binary_search(notas, 0, len(notas)-1, troco)
+        if(k==0): 
+            print("Troco não existe")
+        troco = troco - nota 
+        select_notas.append(nota)
+    return select_notas
 
-    for i in range(len(notas)):
-        quantidade = troco // notas[i]
-        quantidade_notas[i] = quantidade
-        troco -= quantidade * notas[i]
+    # quantidade_notas = [0] * len(notas)
 
-    return quantidade_notas
+    # for i in range(len(notas)):
+    #     quantidade = troco // notas[i]
+    #     quantidade_notas[i] = quan;;tidade
+    #     troco -= quantidade * notas[i]
+
+    # return quantidade_notas
 
 # Algoritmo do Caminhoneiro
 #   Recebe o endereco da entrega e todos os caminhoes, calcula a menor quantidade de vezes que
@@ -172,9 +193,9 @@ def main():
     # Algoritmo da Moeda
     # troco = 100
     # Assume que o caminhoneiro possui todos os tipos de notas em quantidades suficientes.
-    # notas = [200, 100, 50, 20, 10, 5, 2, 1, 0.5, 0.25, 0.1]
-    # quantidade_notas = encontrar_notas(troco, notas)
-    # print("Quantidade de notas:", quantidade_notas)
+    notas = [200, 100, 50, 20, 10, 5, 2, 1, 0.5, 0.25, 0.1]
+    quantidade_notas = coin_changing(troco, notas)
+    print("Quantidade de notas:", quantidade_notas)
 
     # Algoritmo do Caminhoneiro
     # distancia = 505
