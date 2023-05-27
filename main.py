@@ -1,5 +1,6 @@
 import heapq
 import math
+from collections import Counter
 
 # Classe para representar os produtos
 #   Nome: nome do produto
@@ -213,21 +214,28 @@ def main():
     notas = [200, 100, 50, 20, 10, 5, 2, 1, 0.5, 0.25, 0.1]
     for i, caminhao in enumerate(caminhoes): 
         result = calcular_abastecimento(caminhao, distancia)
-        print(result)
         print("--------------------- Abastecimento --------------------")
         if(result != -1):
-            print(f"O caminhao {i} vai ter que parar nos kilometros: ")
+            print(f"O caminhao {i+1} vai ter que parar nos kilometros: ")
             for posto in result: 
-                print(posto)
+                print(f"{posto} km")
         else: 
             print("O caminhão não tem automonia para chegar ao destino")
-    
-        valor_pago = float(input(f"Qual o valor que o cliente pagou pelo caminhão {i}?"))
+        print("-------------------- Melhor troco ----------------------")
+        valor_pago = float(input(f"Qual o valor que o cliente pagou pelo caminhão {i+1}?\n"))
         troco = valor_pago - caminhao.valor_total
+        if not troco: 
+            print("O valor informado não precisa de troco.")
         troco_notas = coin_changing(troco, notas)
-        print(troco_notas)
-
-    print(result)
+        troco_notas = Counter(troco_notas)
+        if(troco_notas!=-1):
+            for chave in troco_notas: 
+                if(chave>=2):
+                    print(f"{troco_notas[chave]} notas de {chave} reais")
+                else: 
+                    print(f"{troco_notas[chave]} moedas de {chave} reais")
+        else: 
+            print("Não existe troco para o valor informado")
 
     # Algoritmo da Moeda
     # troco = 100
