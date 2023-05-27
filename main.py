@@ -22,6 +22,7 @@ class Caminhao:
         self.capacidade = capacidade
         self.autonomia = autonomia
         self.produtos = []
+        self.valor_total = 0
 
     def adicionar_produto(self, produto):
         self.produtos.append(produto)
@@ -89,7 +90,7 @@ def coin_changing(troco, notas):
     while(troco != 0): 
         nota, k = binary_search(notas, 0, len(notas)-1, troco)
         if(k==0): 
-            print("Troco não existe")
+            return -1
         troco = troco - nota 
         select_notas.append(nota)
     return select_notas
@@ -106,9 +107,19 @@ def coin_changing(troco, notas):
 # Algoritmo do Caminhoneiro
 #   Recebe o endereco da entrega e todos os caminhoes, calcula a menor quantidade de vezes que
 #    cada caminhão precisará abastecer.
-def calcular_abastecimento(distancia):
 
-    return x
+def calcular_abastecimento(caminhao, distancia):
+    distancia.sort()
+    abastecimento = []
+    x = 0
+    while x != distancia[-1]: 
+        bp, p = binary_search(distancia, 0, len(distancia)-1, x + caminhao.autonomia)
+        if bp == x:
+            return -1
+        x = bp
+        abastecimento.append(bp)
+
+    return abastecimento
 
 # Função principal
 #   O usuário insere a quantidades e dados dos caminhões, produtos, pagamento do cliente e
@@ -143,12 +154,19 @@ def main():
 
     # Algoritmo do Knapsack
 
+
+    distancia = []
+    numero_postos = int(input("Existem quantos postos no caminho?\n"))
+    for i in range(numero_postos): 
+        n = int(input(f"Qual a distância do posto {i+1} do ponto inicial?\n"))
+        distancia.append(n)
+
     # Dados de exemplo:
     
     caminhoes = [
-        Caminhao(10, 0.8),
-        Caminhao(15, 0.7),
-        Caminhao(20, 0.6)
+        Caminhao(10, 30),
+        Caminhao(15, 20),
+        Caminhao(20, 10)
     ]
 
     produtos = [
@@ -183,6 +201,7 @@ def main():
         print(f"Caminhão {i+1}:")
         print(f" Capacidade: {caminhao.capacidade}")
         for produto in caminhao.produtos:
+            caminhao.valor_total += produto.valor
             print(f"  Produto: {produto.nome}, Peso: {produto.peso}, Valor: {produto.valor}, Prioridade: {produto.prioridade}")
 
     # Imprimir produtos restantes
@@ -190,17 +209,32 @@ def main():
     for produto in produtos:
         print(f"  Produto: {produto.nome}, Peso: {produto.peso}, Valor: {produto.valor}, Prioridade: {produto.prioridade}")
    
+    # Algoritmo do Caminhoneiro
+    notas = [200, 100, 50, 20, 10, 5, 2, 1, 0.5, 0.25, 0.1]
+    for i, caminhao in enumerate(caminhoes): 
+        result = calcular_abastecimento(caminhao, distancia)
+        print(result)
+        print("--------------------- Abastecimento --------------------")
+        if(result != -1):
+            print(f"O caminhao {i} vai ter que parar nos kilometros: ")
+            for posto in result: 
+                print(posto)
+        else: 
+            print("O caminhão não tem automonia para chegar ao destino")
+    
+        valor_pago = float(input(f"Qual o valor que o cliente pagou pelo caminhão {i}?"))
+        troco = valor_pago - caminhao.valor_total
+        troco_notas = coin_changing(troco, notas)
+        print(troco_notas)
+
+    print(result)
+
     # Algoritmo da Moeda
     # troco = 100
     # Assume que o caminhoneiro possui todos os tipos de notas em quantidades suficientes.
-    notas = [200, 100, 50, 20, 10, 5, 2, 1, 0.5, 0.25, 0.1]
-    quantidade_notas = coin_changing(troco, notas)
-    print("Quantidade de notas:", quantidade_notas)
+    # troco_notas = coin_changing(troco, notas)
+    # print("Quantidade de notas:", quantidade_notas)
 
-    # Algoritmo do Caminhoneiro
-    # distancia = 505
-    # menor_distancia = calcular_abastecimento(distancia)
-    # print("Menor distância:", menor_distancia)
 
 if __name__ == '__main__':
     main()
