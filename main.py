@@ -214,18 +214,22 @@ def main():
     notas = [200, 100, 50, 20, 10, 5, 2, 1, 0.5, 0.25, 0.1]
     for i, caminhao in enumerate(caminhoes): 
         result = calcular_abastecimento(caminhao, distancia)
-        print("--------------------- Abastecimento --------------------")
+        print("--------------------- Abastecimento --------------------\n")
         if(result != -1):
             print(f"O caminhao {i+1} vai ter que parar nos kilometros: ")
             for posto in result: 
                 print(f"{posto} km")
         else: 
             print("O caminhão não tem automonia para chegar ao destino")
-        print("-------------------- Melhor troco ----------------------")
+
+        print("-------------------- Melhor troco ----------------------\n")
+
         valor_pago = float(input(f"Qual o valor que o cliente pagou pelo caminhão {i+1}?\n"))
         troco = valor_pago - caminhao.valor_total
+
         if not troco: 
             print("O valor informado não precisa de troco.")
+
         troco_notas = coin_changing(troco, notas)
         troco_notas = Counter(troco_notas)
         if(troco_notas!=-1):
