@@ -125,102 +125,92 @@ def calcular_abastecimento(caminhao, distancia):
 #   O usuário insere a quantidades e dados dos caminhões, produtos, pagamento do cliente e
 #    a distância a ser percorrida, retorna os dados da entrega.
 def main():
-    # numero_caminhoes = int(input("Digite o número de caminhões: "))
-    # caminhoes = []
+    numero_caminhoes = int(input("Digite o número de caminhões: "))
+    caminhoes = []
 
-    # for i in range(numero_caminhoes):
-    #     capacidade = float(input(f"Digite a capacidade do caminhão {i+1}: "))
-    #     distancia = float(input(f"Digite a distância percorrida pelo caminhão {i+1}: "))
-    #     caminhao = Caminhao(capacidade, distancia)
-    #     caminhoes.append(caminhao)
-    
-    # produtos = [
-    #     Produto('Trigo', 10, 5, 15),
-    #     Produto('Parafuso', 20, 8, 5),
-    #     Produto('Lã', 15, 6, 10),
-    #     Produto('Carne', 30, 10, 20),
-    # ]
+    for i in range(numero_caminhoes):
+        capacidade = float(input(f"Digite a capacidade do caminhão {i+1}: "))
+        autonomia = float(input(f"Digite a distância percorrida pelo caminhão {i+1}: "))
+        caminhao = Caminhao(capacidade, autonomia)
+        caminhoes.append(caminhao)
 
-    # numero_produtos = int(input("Digite o número de produtos: "))
+    numero_produtos = int(input("Digite o número de produtos: "))
 
-    # produtos = []
-    # for i in range(numero_produtos):
-    #     nome = input(f"Digite o nome do produto {i+1}: ")
-    #     peso = float(input(f"Digite o peso do produto {i+1}: "))
-    #     valor = float(input(f"Digite o valor do produto {i+1}: "))
-    #     prioridade = input(f"Digite a prioridade do produto {i+1}: ")
-    #     produto = Produto(nome, peso, valor, prioridade)
-    #     produtos.append(produto)
+    produtos = []
+    for i in range(numero_produtos):
+        nome = input(f"Digite o nome do produto {i+1}: ")
+        peso = float(input(f"Digite o peso do produto {i+1}: "))
+        valor = float(input(f"Digite o valor do produto {i+1}: "))
+        prioridade = input(f"Digite a prioridade do produto {i+1}: ")
+        produto = Produto(nome, peso, valor, prioridade)
+        produtos.append(produto)
 
-    # distancia = []
-    # numero_postos = int(input("Existem quantos postos no caminho?\n"))
-    # for i in range(numero_postos): 
-    #     n = int(input(f"Qual a distância do posto {i+1} do ponto inicial?\n"))
-    #     distancia.append(n)
+    distancia = []
+    numero_postos = int(input("Existem quantos postos no caminho?\n"))
+    for i in range(numero_postos): 
+        n = int(input(f"Qual a distância do posto {i+1} do ponto inicial?\n"))
+        distancia.append(n)
 
     # ----------------------------------------------
     # Dados de exemplo:
-    caminhoes = [
-        Caminhao(7, 30),
-        Caminhao(15, 20),
-        Caminhao(20, 10)
-    ]
+    # caminhoes = [
+    #     Caminhao(7, 30),
+    #     Caminhao(15, 20),
+    #     Caminhao(20, 10)
+    # ]
 
-    produtos = [
-        Produto("Produto 1", 5, 10, 1),
-        Produto("Produto 2", 8, 15, 2),
-        Produto("Produto 3", 12, 20, 2),
-        Produto("Produto 4", 4, 8, 3),
-        Produto("Produto 5", 6, 12, 3),
-        Produto("Produto 6", 10, 16, 3)
-    ]
+    # produtos = [
+    #     Produto("Produto 1", 5, 10, 1),
+    #     Produto("Produto 2", 8, 15, 2),
+    #     Produto("Produto 3", 12, 20, 2),
+    #     Produto("Produto 4", 4, 8, 3),
+    #     Produto("Produto 5", 6, 12, 3),
+    #     Produto("Produto 6", 10, 16, 3)
+    # ]
     # ----------------------------------------------
 
     # Algoritmo do Knapsack
     caminhoes, produtos = knapsack(caminhoes, produtos)
 
-    # Imprimir caminhões e seus produtos
-    for i, caminhao in enumerate(caminhoes):
-        print(f"Caminhão {i+1}:")
-        for produto in caminhao.produtos:
-            print(f"  Produto: {produto.nome}, Peso: {produto.peso}, Valor: {produto.valor}, Prioridade: {produto.prioridade}")
-
-    # Imprimir produtos restantes
-    print("Produtos restantes:")
-    for produto in produtos:
-        print(f"  Produto: {produto.nome}, Peso: {produto.peso}, Valor: {produto.valor}, Prioridade: {produto.prioridade}")
-    
     # Algoritmo do Caminhoneiro junto ao Algoritmo da Moeda
     #   Assume que o caminhoneiro possui todos os tipos de notas em quantidades suficientes.
     #   Recebe um valor pago do usuário para todo o conteúdo de cada caminhão, e assim calcula
     #    seu troco a ser entregue ao cliente.
-    # notas = [0.1, 50, 5, 100, 20, 1, 2, 0.25, 10, 200, 0.5]
-    # for i, caminhao in enumerate(caminhoes):
-    #     result = calcular_abastecimento(caminhao, distancia)
-    #     print(result)
-    #     print("--------------------- Abastecimento --------------------")
-    #     if(result != -1):
-    #         print(f"O caminhao {i} vai ter que parar nos kilometros: ")
-    #         for posto in result: 
-    #             print(posto)
-    #     else: 
-    #         print("O caminhão não tem automonia para chegar ao destino")
+    notas = [0.1, 50, 5, 100, 20, 1, 2, 0.25, 10, 200, 0.5]
+    for i, caminhao in enumerate(caminhoes):
+        print(f"--------------------- Informações - Caminhão {i+1} --------------------")
+
+        # Mostra todos os produtos no caminhão 'i'
+        print(f"Produtos no caminhão {i+1}:")
+        for produto in caminhao.produtos:
+            print(f"  Produto: {produto.nome}, Peso: {produto.peso}, Valor: {produto.valor}, Prioridade: {produto.prioridade}")
+
+        # Calcula e mostra os postos que o caminhoneiro precisará passar dentro de sua autonomia, com o algoritmo do caminhoneiro.
+        result = calcular_abastecimento(caminhao, distancia)
+        if(result != -1):
+            print(f"O caminhao {i+1} vai ter que parar nos kilometros: ")
+            
+            for posto in result: 
+                print(posto)
+        else: 
+            print(f"O caminhão {i+1} não tem autonomia para chegar ao destino.")
     
-    #     valor_pago = float(input(f"Qual o valor que o cliente pagou pelo caminhão {i}?"))
-    #     troco = valor_pago - caminhao.valor_total
-    #     if troco < 0:
-    #         print("Não foi pago o suficiente.")
-    #         continue
-    #     troco_notas = coin_changing(troco, notas)
-    #     print(troco_notas)
+        # Pede o valor pago pelo cliente e calcula o troco e quais notas compõem o troco, pelo algoritimo da moeda.
+        valor_pago = float(input(f"Qual o valor que o cliente pagou pelo caminhão {i+1}?"))
+        troco = valor_pago - caminhao.valor_total
+        if troco < 0:
+            print("Não foi pago o suficiente.")
+        else:
+            troco_notas = coin_changing(troco, notas)
+            print(f"O troco para o caminhão {i+1} foi de:\n{troco_notas}")
 
-    # print(result)
-
-    # Algoritmo da Moeda
-    # troco = 100
-    # troco_notas = coin_changing(troco, notas)
-    # print("Quantidade de notas:", quantidade_notas)
-
+    # Mostrar produtos restantes, que não foram levados em nenhum caminhão
+    print("Produtos restantes:")
+    if len(produtos):
+        for produto in produtos:
+            print(f"  Produto: {produto.nome}, Peso: {produto.peso}, Valor: {produto.valor}, Prioridade: {produto.prioridade}")
+    else:
+        print("Não restou nenhum produto!")
 
 if __name__ == '__main__':
     main()
