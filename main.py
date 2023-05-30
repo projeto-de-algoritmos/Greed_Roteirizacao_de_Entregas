@@ -183,11 +183,11 @@ def main():
     for i, caminhao in enumerate(caminhoes):
         print(f"--------------------- Informações - Caminhão {i+1} --------------------")
 
-        # Mostra informações do caminhão:
-        print(f"Capacidade do caminhão: {caminhoes_old.capacidade}")
-        print(f"Autonomia do caminhão: {caminhoes_old.autonomia}")
+        # Mostra informações do caminhão 'i+1':
+        print(f"Capacidade do caminhão: {caminhoes_old[i].capacidade}")
+        print(f"Autonomia do caminhão: {caminhoes_old[i].autonomia}")
 
-        # Mostra todos os produtos no caminhão 'i'
+        # Mostra todos os produtos no caminhão 'i+1'
         print(f"Produtos no caminhão {i+1}:")
         for produto in caminhao.produtos:
             print(f"  Produto: {produto.nome}, Peso: {produto.peso}, Valor: {produto.valor}, Prioridade: {produto.prioridade}")
