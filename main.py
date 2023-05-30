@@ -205,13 +205,13 @@ def main():
         # Pede o valor pago pelo cliente e calcula o troco e quais notas compõem o troco, pelo algoritimo da moeda.
         valor_pago = float(input(f"Qual o valor que o cliente pagou pelo caminhão {i+1}?\n"))
         troco = valor_pago - caminhao.valor_total
-
+    
         if not troco: 
             print("O valor informado não precisa de troco.")
 
         troco_notas = coin_changing(troco, notas)
-        troco_notas = Counter(troco_notas)
         if(troco_notas!=-1):
+            troco_notas = Counter(troco_notas)
             for chave in troco_notas: 
                 if(chave>=2):
                     print(f"{troco_notas[chave]} notas de {chave} reais")
