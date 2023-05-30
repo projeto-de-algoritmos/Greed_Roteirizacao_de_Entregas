@@ -1,5 +1,5 @@
 import heapq
-import math
+from collections import Counter
 
 # Classe para representar os produtos
 #   Nome: nome do produto
@@ -35,10 +35,10 @@ class Caminhao:
 #   Obs: A função nativa do python, o "sorted()", utiliza o Timsort, que é um algoritmo de ordenação
 #    de complexidade O(n logn) que combina o Mergesort com o Insertionsort.
 def knapsack(caminhoes, produtos):
-    caminhoes = sorted(caminhoes, key=lambda x: x.capacidade, reverse=True)
+    caminhoes = sorted(caminhoes, key=lambda x: x.autonomia, reverse=True)
     produtos = sorted(produtos, key=lambda x: (x.prioridade, x.valor/x.peso), reverse=True)
 
-    max_heap = [(-caminhao.capacidade, caminhao) for caminhao in caminhoes]
+    max_heap = [(-caminhao.autonomia, caminhao) for caminhao in caminhoes]
     # Utiliza fila de prioridades (heap) para realizar a inserção nos caminhões.
     heapq.heapify(max_heap)
 
@@ -94,7 +94,7 @@ def binary_search(notas, l, r, x):
 #   Recebe o troco que deverá ser entregue ao cliente e quais notas estão disponíveis, irá
 #    calcular a melhor forma de dividir o troco pelas notas, com a menor quantidade de notas.
 def coin_changing(troco, notas):
-    notas.sorted(reverse=True)
+    notas.sort()
     select_notas = []
     while(troco != 0):
         nota, k = binary_search(notas, 0, len(notas)-1, troco)
@@ -130,7 +130,7 @@ def main():
 
     for i in range(numero_caminhoes):
         capacidade = float(input(f"Digite a capacidade do caminhão {i+1}: "))
-        autonomia = float(input(f"Digite a distância percorrida pelo caminhão {i+1}: "))
+        autonomia = float(input(f"Digite a autonomia do caminhão {i+1}: "))
         caminhao = Caminhao(capacidade, autonomia)
         caminhoes.append(caminhao)
 
@@ -169,6 +169,9 @@ def main():
     # ]
     # ----------------------------------------------
 
+    # Guarda valores dos caminhões para futuro uso
+    caminhoes_old = caminhoes
+    
     # Algoritmo do Knapsack
     caminhoes, produtos = knapsack(caminhoes, produtos)
 
@@ -179,6 +182,10 @@ def main():
     notas = [0.1, 50, 5, 100, 20, 1, 2, 0.25, 10, 200, 0.5]
     for i, caminhao in enumerate(caminhoes):
         print(f"--------------------- Informações - Caminhão {i+1} --------------------")
+
+        # Mostra informações do caminhão:
+        print(f"Capacidade do caminhão: {caminhoes_old.capacidade}")
+        print(f"Autonomia do caminhão: {caminhoes_old.autonomia}")
 
         # Mostra todos os produtos no caminhão 'i'
         print(f"Produtos no caminhão {i+1}:")
@@ -191,20 +198,28 @@ def main():
             print(f"O caminhao {i+1} vai ter que parar nos kilometros: ")
             
             for posto in result: 
-                print(posto)
+                print(f"{posto} km")
         else: 
             print(f"O caminhão {i+1} não tem autonomia para chegar ao destino.")
-    
-        # Pede o valor pago pelo cliente e calcula o troco e quais notas compõem o troco, pelo algoritimo da moeda.
-        valor_pago = float(input(f"Qual o valor que o cliente pagou pelo caminhão {i+1}?"))
-        troco = valor_pago - caminhao.valor_total
-        if troco < 0:
-            print("Não foi pago o suficiente.")
-        else:
-            troco_notas = coin_changing(troco, notas)
-            print(f"O troco para o caminhão {i+1} foi de:\n{troco_notas}")
 
-    # Mostrar produtos restantes, que não foram levados em nenhum caminhão
+        # Pede o valor pago pelo cliente e calcula o troco e quais notas compõem o troco, pelo algoritimo da moeda.
+        valor_pago = float(input(f"Qual o valor que o cliente pagou pelo caminhão {i+1}?\n"))
+        troco = valor_pago - caminhao.valor_total
+
+        if not troco: 
+            print("O valor informado não precisa de troco.")
+
+        troco_notas = coin_changing(troco, notas)
+        troco_notas = Counter(troco_notas)
+        if(troco_notas!=-1):
+            for chave in troco_notas: 
+                if(chave>=2):
+                    print(f"{troco_notas[chave]} notas de {chave} reais")
+                else: 
+                    print(f"{troco_notas[chave]} moedas de {chave} reais")
+        else: 
+            print("Não existe troco para o valor informado")
+
     print("Produtos restantes:")
     if len(produtos):
         for produto in produtos:
