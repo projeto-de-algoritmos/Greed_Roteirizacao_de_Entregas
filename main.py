@@ -32,42 +32,51 @@ class Caminhao:
 #    baseado principalmente em suas prioridades e valores. O que não couber no primeiro caminhão
 #    será colocado no segundo, e assim por diante. Caso não seja possível colocar todos os produtos
 #    em todos os caminhões, irá continuar no vetor de produtos.
-#   Obs: A função nativa do python, o "sorted()" utiliza o Timsort, que é um algoritmo de ordenação
+#   Obs: A função nativa do python, o "sorted()", utiliza o Timsort, que é um algoritmo de ordenação
 #    de complexidade O(n logn) que combina o Mergesort com o Insertionsort.
 def knapsack(caminhoes, produtos):
     caminhoes = sorted(caminhoes, key=lambda x: x.capacidade, reverse=True)
     produtos = sorted(produtos, key=lambda x: (x.prioridade, x.valor/x.peso), reverse=True)
 
-    for i, produto in enumerate(produtos):
-        added = False
-        for caminhao in caminhoes:
-            if caminhao.capacidade >= produto.peso:
-                caminhao.adicionar_produto(produto)
-                caminhao.capacidade -= produto.peso
-                produtos.remove(produto)
-                added = True
-                break
-            elif caminhao.capacidade > 0:
-                # Dividir o peso do produto para caber no caminhão
-                peso_restante = caminhao.capacidade
-                proporcao = peso_restante / produto.peso
-                produto_restante = Produto(produto.nome,
-                    produto.peso * proporcao,
-                    produto.valor * proporcao,
-                    produto.prioridade)
-                produtos[i] = Produto(produto.nome, # ARRUMAR SUBSTITUIÇÃO DO VETOR
-                    produto.peso - (produto.peso * proporcao),
-                    produto.valor - (produto.valor * proporcao),
-                    produto.prioridade)
-                caminhao.adicionar_produto(produto_restante)
-                caminhao.capacidade = 0
-                added = True
-                break
+    max_heap = [(-caminhao.capacidade, caminhao) for caminhao in caminhoes]
+    # Utiliza fila de prioridades (heap) para realizar a inserção nos caminhões.
+    heapq.heapify(max_heap)
 
-        if not added:
-            break
+    caminhoes_fim = []
+    while len(produtos) and len(max_heap):
+        produto = produtos[0]
+        capacidade, caminhao = max_heap[0]
+
+        if caminhao.capacidade >= produto.peso:
+            caminhao.adicionar_produto(produto)
+            caminhao.capacidade -= produto.peso
+            caminhao.valor_total += produto.valor
+            produtos.remove(produto)
+            max_heap[0] = (capacidade, caminhao)
+            if not len(produtos):
+                caminhoes_fim.append(caminhao)
+        elif caminhao.capacidade > 0:
+            # Dividir o peso do produto para caber no caminhão
+            peso_inserido = caminhao.capacidade
+            vp = produto.valor / produto.peso
+            valor_inserido = peso_inserido * vp
+            produto_inserido = Produto(produto.nome,
+                peso_inserido,
+                valor_inserido,
+                produto.prioridade)
+            produtos[0].peso = produto.peso - peso_inserido
+            produtos[0].valor = produto.valor - valor_inserido
+            caminhao.adicionar_produto(produto_inserido)
+            caminhao.valor_total += valor_inserido
+            caminhao.capacidade = 0
+            caminhoes_fim.append(caminhao)
+        if (caminhao.capacidade == 0):
+            heapq.heappop(max_heap)
+
+    caminhoes[len(caminhoes_fim)-1:] = caminhoes_fim
 
     return caminhoes, produtos
+
 def binary_search(notas, l, r, x):
     upper_bound = -1
     indice = -1
@@ -85,24 +94,15 @@ def binary_search(notas, l, r, x):
 #   Recebe o troco que deverá ser entregue ao cliente e quais notas estão disponíveis, irá
 #    calcular a melhor forma de dividir o troco pelas notas, com a menor quantidade de notas.
 def coin_changing(troco, notas):
-    notas.sort()
+    notas.sorted(reverse=True)
     select_notas = []
-    while(troco != 0): 
+    while(troco != 0):
         nota, k = binary_search(notas, 0, len(notas)-1, troco)
         if(k==0): 
             return -1
-        troco = troco - nota 
+        troco -= nota 
         select_notas.append(nota)
     return select_notas
-
-    # quantidade_notas = [0] * len(notas)
-
-    # for i in range(len(notas)):
-    #     quantidade = troco // notas[i]
-    #     quantidade_notas[i] = quan;;tidade
-    #     troco -= quantidade * notas[i]
-
-    # return quantidade_notas
 
 # Algoritmo do Caminhoneiro
 #   Recebe o endereco da entrega e todos os caminhoes, calcula a menor quantidade de vezes que
@@ -126,8 +126,8 @@ def calcular_abastecimento(caminhao, distancia):
 #    a distância a ser percorrida, retorna os dados da entrega.
 def main():
     # numero_caminhoes = int(input("Digite o número de caminhões: "))
-
     # caminhoes = []
+
     # for i in range(numero_caminhoes):
     #     capacidade = float(input(f"Digite a capacidade do caminhão {i+1}: "))
     #     distancia = float(input(f"Digite a distância percorrida pelo caminhão {i+1}: "))
@@ -152,19 +152,16 @@ def main():
     #     produto = Produto(nome, peso, valor, prioridade)
     #     produtos.append(produto)
 
-    # Algoritmo do Knapsack
+    # distancia = []
+    # numero_postos = int(input("Existem quantos postos no caminho?\n"))
+    # for i in range(numero_postos): 
+    #     n = int(input(f"Qual a distância do posto {i+1} do ponto inicial?\n"))
+    #     distancia.append(n)
 
-
-    distancia = []
-    numero_postos = int(input("Existem quantos postos no caminho?\n"))
-    for i in range(numero_postos): 
-        n = int(input(f"Qual a distância do posto {i+1} do ponto inicial?\n"))
-        distancia.append(n)
-
+    # ----------------------------------------------
     # Dados de exemplo:
-    
     caminhoes = [
-        Caminhao(10, 30),
+        Caminhao(7, 30),
         Caminhao(15, 20),
         Caminhao(20, 10)
     ]
@@ -177,61 +174,50 @@ def main():
         Produto("Produto 5", 6, 12, 3),
         Produto("Produto 6", 10, 16, 3)
     ]
+    # ----------------------------------------------
 
-    # Imprimir caminhões e seus produtos
-    for i, caminhao in enumerate(caminhoes):
-        print(f"Caminhão {i+1}:")
-        print(f" Capacidade: {caminhao.capacidade}")
-        for produto in caminhao.produtos:
-            print(f"  Produto: {produto.nome}, Peso: {produto.peso}, Valor: {produto.valor}, Prioridade: {produto.prioridade}")
-
-    # Imprimir produtos restantes
-    print("Produtos restantes:")
-    for produto in produtos:
-        print(f"  Produto: {produto.nome}, Peso: {produto.peso}, Valor: {produto.valor}, Prioridade: {produto.prioridade}")
-
-    print('-----------------------------------------')
-
+    # Algoritmo do Knapsack
     caminhoes, produtos = knapsack(caminhoes, produtos)
 
-    print('-----------------------------------------')
-
     # Imprimir caminhões e seus produtos
     for i, caminhao in enumerate(caminhoes):
         print(f"Caminhão {i+1}:")
-        print(f" Capacidade: {caminhao.capacidade}")
         for produto in caminhao.produtos:
-            caminhao.valor_total += produto.valor
             print(f"  Produto: {produto.nome}, Peso: {produto.peso}, Valor: {produto.valor}, Prioridade: {produto.prioridade}")
 
     # Imprimir produtos restantes
     print("Produtos restantes:")
     for produto in produtos:
         print(f"  Produto: {produto.nome}, Peso: {produto.peso}, Valor: {produto.valor}, Prioridade: {produto.prioridade}")
-   
-    # Algoritmo do Caminhoneiro
-    notas = [200, 100, 50, 20, 10, 5, 2, 1, 0.5, 0.25, 0.1]
-    for i, caminhao in enumerate(caminhoes): 
-        result = calcular_abastecimento(caminhao, distancia)
-        print(result)
-        print("--------------------- Abastecimento --------------------")
-        if(result != -1):
-            print(f"O caminhao {i} vai ter que parar nos kilometros: ")
-            for posto in result: 
-                print(posto)
-        else: 
-            print("O caminhão não tem automonia para chegar ao destino")
     
-        valor_pago = float(input(f"Qual o valor que o cliente pagou pelo caminhão {i}?"))
-        troco = valor_pago - caminhao.valor_total
-        troco_notas = coin_changing(troco, notas)
-        print(troco_notas)
+    # Algoritmo do Caminhoneiro junto ao Algoritmo da Moeda
+    #   Assume que o caminhoneiro possui todos os tipos de notas em quantidades suficientes.
+    #   Recebe um valor pago do usuário para todo o conteúdo de cada caminhão, e assim calcula
+    #    seu troco a ser entregue ao cliente.
+    # notas = [0.1, 50, 5, 100, 20, 1, 2, 0.25, 10, 200, 0.5]
+    # for i, caminhao in enumerate(caminhoes):
+    #     result = calcular_abastecimento(caminhao, distancia)
+    #     print(result)
+    #     print("--------------------- Abastecimento --------------------")
+    #     if(result != -1):
+    #         print(f"O caminhao {i} vai ter que parar nos kilometros: ")
+    #         for posto in result: 
+    #             print(posto)
+    #     else: 
+    #         print("O caminhão não tem automonia para chegar ao destino")
+    
+    #     valor_pago = float(input(f"Qual o valor que o cliente pagou pelo caminhão {i}?"))
+    #     troco = valor_pago - caminhao.valor_total
+    #     if troco < 0:
+    #         print("Não foi pago o suficiente.")
+    #         continue
+    #     troco_notas = coin_changing(troco, notas)
+    #     print(troco_notas)
 
-    print(result)
+    # print(result)
 
     # Algoritmo da Moeda
     # troco = 100
-    # Assume que o caminhoneiro possui todos os tipos de notas em quantidades suficientes.
     # troco_notas = coin_changing(troco, notas)
     # print("Quantidade de notas:", quantidade_notas)
 
