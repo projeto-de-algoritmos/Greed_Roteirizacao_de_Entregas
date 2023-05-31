@@ -77,6 +77,9 @@ def knapsack(caminhoes, produtos):
 
     return caminhoes, produtos
 
+# Algoritmo de busca binária
+# O algoritmo retorna o maior número menor do que o x, que é passado como parâmetro,
+# por meio de uma busca binária, é utilizado no algoritmo da moeda e do caminhoneiro
 def binary_search(notas, l, r, x):
     upper_bound = -1
     indice = -1
