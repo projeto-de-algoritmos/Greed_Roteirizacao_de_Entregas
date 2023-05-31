@@ -35,7 +35,7 @@ class Caminhao:
 #   Obs: A função nativa do python, o "sorted()", utiliza o Timsort, que é um algoritmo de ordenação
 #    de complexidade O(n logn) que combina o Mergesort com o Insertionsort.
 def knapsack(caminhoes, produtos):
-    caminhoes = sorted(caminhoes, key=lambda x: (x.autonomia, x.capacidade), reverse=True)
+    caminhoes = sorted(caminhoes, key=lambda x: x.autonomia, reverse=True)
     produtos = sorted(produtos, key=lambda x: (x.prioridade, x.valor/x.peso), reverse=True)
     caminhoes_old = caminhoes
 
