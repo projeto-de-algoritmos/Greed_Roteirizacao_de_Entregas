@@ -36,8 +36,9 @@ class Caminhao:
 #   Obs: A função nativa do python, o "sorted()", utiliza o Timsort, que é um algoritmo de ordenação
 #    de complexidade O(n logn) que combina o Mergesort com o Insertionsort.
 def knapsack(caminhoes, produtos):
-    caminhoes = sorted(caminhoes, key=lambda x: x.autonomia, reverse=True)
+    caminhoes = sorted(caminhoes, key=lambda x: (x.autonomia, x.capacidade), reverse=True)
     produtos = sorted(produtos, key=lambda x: (x.prioridade, x.valor/x.peso), reverse=True)
+    caminhoes_old = caminhoes
 
     max_heap = [(-caminhao.autonomia, caminhao) for caminhao in caminhoes]
     # Utiliza fila de prioridades (heap) para realizar a inserção nos caminhões.
@@ -76,7 +77,7 @@ def knapsack(caminhoes, produtos):
 
     caminhoes[len(caminhoes_fim)-1:] = caminhoes_fim
 
-    return caminhoes, produtos
+    return caminhoes_old, caminhoes, produtos
 
 # Algoritmo de busca binária
 # O algoritmo retorna o maior número menor do que o x, que é passado como parâmetro,
@@ -97,6 +98,8 @@ def binary_search(notas, l, r, x):
 # Algoritmo da Moeda
 #   Recebe o troco que deverá ser entregue ao cliente e quais notas estão disponíveis, irá
 #    calcular a melhor forma de dividir o troco pelas notas, com a menor quantidade de notas.
+#   Obs: A função nativa do python, o "sort()", utiliza o Timsort, que é um algoritmo de ordenação
+#    de complexidade O(n logn) que combina o Mergesort com o Insertionsort.
 def coin_changing(troco, notas):
     notas.sort()
     select_notas = []
@@ -111,7 +114,6 @@ def coin_changing(troco, notas):
 # Algoritmo do Caminhoneiro
 #   Recebe o endereco da entrega e todos os caminhoes, calcula a menor quantidade de vezes que
 #    cada caminhão precisará abastecer.
-
 def calcular_abastecimento(caminhao, distancia):
     distancia.sort()
     abastecimento = []
@@ -124,6 +126,24 @@ def calcular_abastecimento(caminhao, distancia):
         abastecimento.append(bp)
 
     return abastecimento
+
+# ----------------------------------------------
+    # Dados de exemplo:
+    # caminhoes = [
+    #     Caminhao(7, 30),
+    #     Caminhao(15, 20),
+    #     Caminhao(20, 10)
+    # ]
+
+    # produtos = [
+    #     Produto("Produto 1", 5, 10, 1),
+    #     Produto("Produto 2", 8, 15, 2),
+    #     Produto("Produto 3", 12, 20, 2),
+    #     Produto("Produto 4", 4, 8, 3),
+    #     Produto("Produto 5", 6, 12, 3),
+    #     Produto("Produto 6", 10, 16, 3)
+    # ]
+# ----------------------------------------------
 
 # Função principal
 #   O usuário insere a quantidades e dados dos caminhões, produtos, pagamento do cliente e
@@ -154,30 +174,9 @@ def main():
     for i in range(numero_postos): 
         n = int(input(f"Qual a distância do posto {i+1} do ponto inicial?\n"))
         distancia.append(n)
-
-    # ----------------------------------------------
-    # Dados de exemplo:
-    # caminhoes = [
-    #     Caminhao(7, 30),
-    #     Caminhao(15, 20),
-    #     Caminhao(20, 10)
-    # ]
-
-    # produtos = [
-    #     Produto("Produto 1", 5, 10, 1),
-    #     Produto("Produto 2", 8, 15, 2),
-    #     Produto("Produto 3", 12, 20, 2),
-    #     Produto("Produto 4", 4, 8, 3),
-    #     Produto("Produto 5", 6, 12, 3),
-    #     Produto("Produto 6", 10, 16, 3)
-    # ]
-    # ----------------------------------------------
-
-    # Guarda valores dos caminhões para futuro uso
-    caminhoes_old = caminhoes
     
     # Algoritmo do Knapsack
-    caminhoes, produtos = knapsack(caminhoes, produtos)
+    caminhoes_old, caminhoes, produtos = knapsack(caminhoes, produtos)
 
     # Algoritmo do Caminhoneiro junto ao Algoritmo da Moeda
     #   Assume que o caminhoneiro possui todos os tipos de notas em quantidades suficientes.
@@ -195,6 +194,8 @@ def main():
         print(f"Produtos no caminhão {caminhao.index}:")
         for produto in caminhao.produtos:
             print(f"  Produto: {produto.nome}, Peso: {produto.peso}, Valor: {produto.valor}, Prioridade: {produto.prioridade}")
+
+        print(f"Valor total: {caminhao.valor_total}")
 
         # Calcula e mostra os postos que o caminhoneiro precisará passar dentro de sua autonomia, com o algoritmo do caminhoneiro.
         result = calcular_abastecimento(caminhao, distancia)
