@@ -27,7 +27,17 @@ Por exemplo, para otimizar as entregas, o primeiro caminhão a sair será sempre
 É importante citar que os produtos devem ser divisíveis para a ideia do projeto, como trigo, parafusos ou carne, podendo ser divididos entre os caminhões sem problema. 
 
 ## Screenshots
-Adicione 3 ou mais screenshots do projeto em funcionamento.
+Seguem as capturas de tela do projeto em execução: 
+
+Primeiramente o usuário insere as informações dos caminhões disponíveis para realização de entregas: 
+![caminhao](https://github.com/projeto-de-algoritmos/Greed_Roteirizacao_de_Entregas/assets/64036847/36b86f6f-9be9-499c-8862-8e6a3c78a73c)
+
+Após isso, são informadas as informações sobre os produtos, assim como apresentado na imagem abaixo: 
+
+![products](https://github.com/projeto-de-algoritmos/Greed_Roteirizacao_de_Entregas/assets/64036847/2d5483e5-fa35-4d5f-ac22-c9c40d243b36)
+
+Após a inserção dos dados, as informações das entregas são apresentadas ao usuário: 
+![infos](https://github.com/projeto-de-algoritmos/Greed_Roteirizacao_de_Entregas/assets/64036847/0398cf19-79c9-4365-a7d8-2fd5f0adcf97)
 
 ## Vídeo
 
