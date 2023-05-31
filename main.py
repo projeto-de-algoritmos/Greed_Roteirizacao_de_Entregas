@@ -35,7 +35,7 @@ class Caminhao:
 #   Obs: A função nativa do python, o "sorted()", utiliza o Timsort, que é um algoritmo de ordenação
 #    de complexidade O(n logn) que combina o Mergesort com o Insertionsort.
 def knapsack(caminhoes, produtos):
-    caminhoes = sorted(caminhoes, key=lambda x: x.autonomia, reverse=True)
+    caminhoes = sorted(caminhoes, key=lambda x: (x.autonomia, x.capacidade), reverse=True)
     produtos = sorted(produtos, key=lambda x: (x.prioridade, x.valor/x.peso), reverse=True)
 
     max_heap = [(-caminhao.autonomia, caminhao) for caminhao in caminhoes]
@@ -93,6 +93,8 @@ def binary_search(notas, l, r, x):
 # Algoritmo da Moeda
 #   Recebe o troco que deverá ser entregue ao cliente e quais notas estão disponíveis, irá
 #    calcular a melhor forma de dividir o troco pelas notas, com a menor quantidade de notas.
+#   Obs: A função nativa do python, o "sort()", utiliza o Timsort, que é um algoritmo de ordenação
+#    de complexidade O(n logn) que combina o Mergesort com o Insertionsort.
 def coin_changing(troco, notas):
     notas.sort()
     select_notas = []
@@ -107,7 +109,6 @@ def coin_changing(troco, notas):
 # Algoritmo do Caminhoneiro
 #   Recebe o endereco da entrega e todos os caminhoes, calcula a menor quantidade de vezes que
 #    cada caminhão precisará abastecer.
-
 def calcular_abastecimento(caminhao, distancia):
     distancia.sort()
     abastecimento = []
@@ -120,6 +121,24 @@ def calcular_abastecimento(caminhao, distancia):
         abastecimento.append(bp)
 
     return abastecimento
+
+# ----------------------------------------------
+    # Dados de exemplo:
+    # caminhoes = [
+    #     Caminhao(7, 30),
+    #     Caminhao(15, 20),
+    #     Caminhao(20, 10)
+    # ]
+
+    # produtos = [
+    #     Produto("Produto 1", 5, 10, 1),
+    #     Produto("Produto 2", 8, 15, 2),
+    #     Produto("Produto 3", 12, 20, 2),
+    #     Produto("Produto 4", 4, 8, 3),
+    #     Produto("Produto 5", 6, 12, 3),
+    #     Produto("Produto 6", 10, 16, 3)
+    # ]
+    # ----------------------------------------------
 
 # Função principal
 #   O usuário insere a quantidades e dados dos caminhões, produtos, pagamento do cliente e
@@ -150,24 +169,6 @@ def main():
     for i in range(numero_postos): 
         n = int(input(f"Qual a distância do posto {i+1} do ponto inicial?\n"))
         distancia.append(n)
-
-    # ----------------------------------------------
-    # Dados de exemplo:
-    # caminhoes = [
-    #     Caminhao(7, 30),
-    #     Caminhao(15, 20),
-    #     Caminhao(20, 10)
-    # ]
-
-    # produtos = [
-    #     Produto("Produto 1", 5, 10, 1),
-    #     Produto("Produto 2", 8, 15, 2),
-    #     Produto("Produto 3", 12, 20, 2),
-    #     Produto("Produto 4", 4, 8, 3),
-    #     Produto("Produto 5", 6, 12, 3),
-    #     Produto("Produto 6", 10, 16, 3)
-    # ]
-    # ----------------------------------------------
 
     # Guarda valores dos caminhões para futuro uso
     caminhoes_old = caminhoes
