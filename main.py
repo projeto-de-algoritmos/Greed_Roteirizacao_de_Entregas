@@ -18,11 +18,12 @@ class Produto:
 #   Aproveitamento: distância máxima percorrida com o caminhão de tanque cheio
 #   Produtos: produtos que estão sendo levados pelo caminhão
 class Caminhao:
-    def __init__(self, capacidade, autonomia):
+    def __init__(self, capacidade, autonomia, index):
         self.capacidade = capacidade
         self.autonomia = autonomia
         self.produtos = []
         self.valor_total = 0
+        self.index = index
 
     def adicionar_produto(self, produto):
         self.produtos.append(produto)
@@ -88,7 +89,7 @@ def binary_search(notas, l, r, x):
         if notas[m] <= x:
             upper_bound = notas[m]
             indice = m
-            l= m + 1
+            l = m + 1
         else:
             r = m - 1
     return upper_bound, indice
@@ -134,7 +135,7 @@ def main():
     for i in range(numero_caminhoes):
         capacidade = float(input(f"Digite a capacidade do caminhão {i+1}: "))
         autonomia = float(input(f"Digite a autonomia do caminhão {i+1}: "))
-        caminhao = Caminhao(capacidade, autonomia)
+        caminhao = Caminhao(capacidade, autonomia, i+1)
         caminhoes.append(caminhao)
 
     numero_produtos = int(input("Digite o número de produtos: "))
@@ -184,29 +185,29 @@ def main():
     #    seu troco a ser entregue ao cliente.
     notas = [0.1, 50, 5, 100, 20, 1, 2, 0.25, 10, 200, 0.5]
     for i, caminhao in enumerate(caminhoes):
-        print(f"--------------------- Informações - Caminhão {i+1} --------------------")
+        print(f"--------------------- Informações - Caminhão {caminhao.index} --------------------")
 
         # Mostra informações do caminhão 'i+1':
         print(f"Capacidade do caminhão: {caminhoes_old[i].capacidade}")
         print(f"Autonomia do caminhão: {caminhoes_old[i].autonomia}")
 
         # Mostra todos os produtos no caminhão 'i+1'
-        print(f"Produtos no caminhão {i+1}:")
+        print(f"Produtos no caminhão {caminhao.index}:")
         for produto in caminhao.produtos:
             print(f"  Produto: {produto.nome}, Peso: {produto.peso}, Valor: {produto.valor}, Prioridade: {produto.prioridade}")
 
         # Calcula e mostra os postos que o caminhoneiro precisará passar dentro de sua autonomia, com o algoritmo do caminhoneiro.
         result = calcular_abastecimento(caminhao, distancia)
         if(result != -1):
-            print(f"O caminhao {i+1} vai ter que parar nos kilometros: ")
+            print(f"O caminhao {caminhao.index} vai ter que parar nos kilometros: ")
             
             for posto in result: 
                 print(f"{posto} km")
         else: 
-            print(f"O caminhão {i+1} não tem autonomia para chegar ao destino.")
+            print(f"O caminhão {caminhao.index} não tem autonomia para chegar ao destino.")
 
         # Pede o valor pago pelo cliente e calcula o troco e quais notas compõem o troco, pelo algoritimo da moeda.
-        valor_pago = float(input(f"Qual o valor que o cliente pagou pelo caminhão {i+1}?\n"))
+        valor_pago = float(input(f"Qual o valor que o cliente pagou pelo caminhão {caminhao.index}?\n"))
         troco = valor_pago - caminhao.valor_total
     
         if not troco: 
