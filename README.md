@@ -28,7 +28,7 @@ Por exemplo, para otimizar as entregas, o primeiro caminhão a sair será sempre
 
 ## Screenshots
 Seguem as capturas de tela do projeto em execução: 
-
+### Caso de teste 1
 Primeiramente o usuário insere as informações dos caminhões disponíveis para realização de entregas: 
 ![caminhao](https://github.com/projeto-de-algoritmos/Greed_Roteirizacao_de_Entregas/assets/64036847/36b86f6f-9be9-499c-8862-8e6a3c78a73c)
 
@@ -38,6 +38,10 @@ Após isso, são informadas as informações sobre os produtos, assim como apres
 
 Após a inserção dos dados, as informações das entregas são apresentadas ao usuário: 
 ![infos](https://github.com/projeto-de-algoritmos/Greed_Roteirizacao_de_Entregas/assets/64036847/0398cf19-79c9-4365-a7d8-2fd5f0adcf97)
+
+### Caso de teste 2
+
+![teste2](https://github.com/projeto-de-algoritmos/Greed_Roteirizacao_de_Entregas/assets/64036847/932d0025-3b0f-4dbe-894b-6682a01d8d0e)
 
 ## Vídeo
 
