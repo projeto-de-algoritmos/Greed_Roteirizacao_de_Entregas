@@ -213,19 +213,17 @@ def main():
         valor_pago = float(input(f"Qual o valor que o cliente pagou pelo caminhão {caminhao.index}?\n"))
         troco = valor_pago - caminhao.valor_total
     
-        if not troco: 
-            print("O valor informado não precisa de troco.")
-
-        troco_notas = coin_changing(troco, notas)
-        if(troco_notas!=-1):
-            troco_notas = Counter(troco_notas)
-            for chave in troco_notas: 
-                if(chave>=2):
-                    print(f"{troco_notas[chave]} notas de {chave} reais")
-                else: 
-                    print(f"{troco_notas[chave]} moedas de {chave} reais")
-        else: 
-            print("Não existe troco para o valor informado")
+        if troco < 0: 
+            print("Não existe troco para o valor informado.")
+        else:
+            troco_notas = coin_changing(troco, notas)
+            if(troco_notas!=-1):
+                troco_notas = Counter(troco_notas)
+                for chave in troco_notas: 
+                    if(chave>=2):
+                        print(f"{troco_notas[chave]} notas de {chave} reais")
+                    else: 
+                        print(f"{troco_notas[chave]} moedas de {chave} reais")
 
     print("Produtos restantes:")
     if len(produtos):
