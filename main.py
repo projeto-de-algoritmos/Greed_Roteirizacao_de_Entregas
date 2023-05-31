@@ -37,6 +37,7 @@ class Caminhao:
 def knapsack(caminhoes, produtos):
     caminhoes = sorted(caminhoes, key=lambda x: (x.autonomia, x.capacidade), reverse=True)
     produtos = sorted(produtos, key=lambda x: (x.prioridade, x.valor/x.peso), reverse=True)
+    caminhoes_old = caminhoes
 
     max_heap = [(-caminhao.autonomia, caminhao) for caminhao in caminhoes]
     # Utiliza fila de prioridades (heap) para realizar a inserção nos caminhões.
@@ -75,7 +76,7 @@ def knapsack(caminhoes, produtos):
 
     caminhoes[len(caminhoes_fim)-1:] = caminhoes_fim
 
-    return caminhoes, produtos
+    return caminhoes_old, caminhoes, produtos
 
 # Algoritmo de busca binária
 # O algoritmo retorna o maior número menor do que o x, que é passado como parâmetro,
@@ -172,12 +173,9 @@ def main():
     for i in range(numero_postos): 
         n = int(input(f"Qual a distância do posto {i+1} do ponto inicial?\n"))
         distancia.append(n)
-
-    # Guarda valores dos caminhões para futuro uso
-    caminhoes_old = caminhoes
     
     # Algoritmo do Knapsack
-    caminhoes, produtos = knapsack(caminhoes, produtos)
+    caminhoes_old, caminhoes, produtos = knapsack(caminhoes, produtos)
 
     # Algoritmo do Caminhoneiro junto ao Algoritmo da Moeda
     #   Assume que o caminhoneiro possui todos os tipos de notas em quantidades suficientes.
@@ -195,6 +193,8 @@ def main():
         print(f"Produtos no caminhão {i+1}:")
         for produto in caminhao.produtos:
             print(f"  Produto: {produto.nome}, Peso: {produto.peso}, Valor: {produto.valor}, Prioridade: {produto.prioridade}")
+
+        print(f"Valor total: {caminhao.valor_total}")
 
         # Calcula e mostra os postos que o caminhoneiro precisará passar dentro de sua autonomia, com o algoritmo do caminhoneiro.
         result = calcular_abastecimento(caminhao, distancia)
