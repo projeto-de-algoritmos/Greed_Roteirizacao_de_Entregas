@@ -141,7 +141,7 @@ def calcular_abastecimento(caminhao, distancia):
     #     Produto("Produto 5", 6, 12, 3),
     #     Produto("Produto 6", 10, 16, 3)
     # ]
-    # ----------------------------------------------
+# ----------------------------------------------
 
 # Função principal
 #   O usuário insere a quantidades e dados dos caminhões, produtos, pagamento do cliente e
