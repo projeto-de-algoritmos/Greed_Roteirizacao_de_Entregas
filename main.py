@@ -57,7 +57,7 @@ def knapsack(caminhoes, produtos):
             max_heap[0] = (capacidade, caminhao)
             if not len(produtos):
                 caminhoes_fim.append(caminhao)
-        elif caminhao.capacidade > 0:
+        elif caminhao.capacidade > 0 and len(produtos):
             # Dividir o peso do produto para caber no caminhão
             peso_inserido = caminhao.capacidade
             vp = produto.valor / produto.peso
@@ -74,8 +74,10 @@ def knapsack(caminhoes, produtos):
             caminhoes_fim.append(caminhao)
         if (caminhao.capacidade == 0):
             heapq.heappop(max_heap)
-
-    caminhoes[len(caminhoes_fim)-1:] = caminhoes_fim
+    if len(caminhoes) == len(caminhoes_fim): 
+        caminhoes = caminhoes_fim
+    else:
+        caminhoes[len(caminhoes_fim)-1:] = caminhoes_fim
 
     return caminhoes_old, caminhoes, produtos
 
