@@ -178,7 +178,7 @@ def main():
         distancia.append(n)
     
     # Algoritmo do Knapsack
-    caminhoes_old, caminhoes, produtos = knapsack(caminhoes, produtos)
+    caminhoes, produtos = knapsack(caminhoes, produtos)
 
     # Algoritmo do Caminhoneiro junto ao Algoritmo da Moeda
     #   Assume que o caminhoneiro possui todos os tipos de notas em quantidades suficientes.
