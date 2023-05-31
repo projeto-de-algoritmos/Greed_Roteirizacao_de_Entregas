@@ -38,7 +38,6 @@ class Caminhao:
 def knapsack(caminhoes, produtos):
     caminhoes = sorted(caminhoes, key=lambda x: x.autonomia, reverse=True)
     produtos = sorted(produtos, key=lambda x: (x.prioridade, x.valor/x.peso), reverse=True)
-    caminhoes_old = caminhoes
 
     max_heap = [(-caminhao.autonomia, caminhao) for caminhao in caminhoes]
     # Utiliza fila de prioridades (heap) para realizar a inserção nos caminhões.
@@ -74,12 +73,13 @@ def knapsack(caminhoes, produtos):
             caminhoes_fim.append(caminhao)
         if (caminhao.capacidade == 0):
             heapq.heappop(max_heap)
+
     if len(caminhoes) == len(caminhoes_fim): 
         caminhoes = caminhoes_fim
     else:
         caminhoes[len(caminhoes_fim)-1:] = caminhoes_fim
 
-    return caminhoes_old, caminhoes, produtos
+    return caminhoes, produtos
 
 # Algoritmo de busca binária
 # O algoritmo retorna o maior número menor do que o x, que é passado como parâmetro,
@@ -189,8 +189,8 @@ def main():
         print(f"--------------------- Informações - Caminhão {caminhao.index} --------------------")
 
         # Mostra informações do caminhão 'i+1':
-        print(f"Capacidade do caminhão: {caminhoes_old[i].capacidade}")
-        print(f"Autonomia do caminhão: {caminhoes_old[i].autonomia}")
+        print(f"Capacidade atual do caminhão: {caminhao.capacidade}")
+        print(f"Autonomia do caminhão: {caminhao.autonomia}")
 
         # Mostra todos os produtos no caminhão 'i+1'
         print(f"Produtos no caminhão {caminhao.index}:")
