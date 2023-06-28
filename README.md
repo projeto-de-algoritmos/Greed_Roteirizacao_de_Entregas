@@ -53,7 +53,7 @@ Após a inserção dos dados, as informações das entregas são apresentadas ao
 
 ## Vídeo
 
-[https://www.youtube.com/watch?v=K_DonV-Gum0](https://www.youtube.com/watch?v=K_DonV-Gum0)
+O vídeo se encontra no diretório principal desse repositório, em formato ".mp4".
 
 ## Instalação 
 **Linguagem**: Python<br>
